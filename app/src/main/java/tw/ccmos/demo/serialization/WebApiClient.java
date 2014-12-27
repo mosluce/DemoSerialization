@@ -17,7 +17,7 @@ import java.lang.reflect.Type;
 /**
  * Created by mosluce on 14/12/26.
  */
-public class WebApiClient<TData> extends AsyncHttpClient {
+public class WebApiClient<TData> {
     private final String ENDPOINT_URL = "YOUR WEB API ENDPOINT URL";
     private String mApiUri;
     private Class<TData> mResultCls;
@@ -30,7 +30,9 @@ public class WebApiClient<TData> extends AsyncHttpClient {
     }
 
     public void post(RequestParams params, final IWebApiResponseHandler<TData> responseHandler) {
-        post(mApiUri, params, new JsonHttpResponseHandler() {
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        client.post(mApiUri, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 WebApiClientResponse<TData> responseObj = new WebApiClientResponse<TData>();
